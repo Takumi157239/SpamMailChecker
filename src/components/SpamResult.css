@@ -1,0 +1,109 @@
+/* オーバーレイ */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* モーダル（PC） */
+.SpamResultModal {
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  width: 420px;
+  max-width: 90%;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+/* 判定 */
+.RiskResult {
+  font-size: 42px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+/* 説明 */
+.SpamDescription {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* 理由 */
+.ReasonBox {
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: left;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* ボタン */
+.SpamResultClose {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: #3498db;
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* ===== スマホ対応 ===== */
+@media (max-width: 768px) {
+
+  .overlay {
+    align-items: flex-end; /* 下に配置 */
+  }
+
+  .SpamResultModal {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    animation: slideUp 0.3s ease;
+  }
+
+  .RiskResult {
+    font-size: 36px;
+  }
+
+  .SpamDescription {
+    font-size: 14px;
+  }
+
+  .ReasonBox {
+    font-size: 14px;
+  }
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* スマホ用スライド */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

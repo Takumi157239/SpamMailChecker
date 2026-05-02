@@ -1,0 +1,67 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e293b;
+    padding: 12px 24px;
+    color: white;
+    position: relative;
+}
+
+.logo {
+    font-size: 20px;
+    margin: 0;
+}
+
+/* ナビ（PC） */
+.header-right {
+    display: flex;
+    gap: 20px;
+}
+
+/* リンク */
+.nav-link {
+    color: #e2e8f0;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.nav-link:hover {
+    background-color: #334155;
+}
+
+/* ハンバーガー（PCでは非表示） */
+.hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* ---------------- */
+/* スマホ対応 */
+/* ---------------- */
+@media (max-width: 768px) {
+    /* ハンバーガー表示 */
+    .hamburger {
+        display: block;
+    }
+
+    /* ナビを非表示にする */
+    .header-right {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background-color: #1e293b;
+        width: 200px;
+        flex-direction: column;
+        gap: 10px;
+        padding: 8px;
+        display: none;
+    }
+
+    /* 開いたとき */
+    .header-right.open {
+        display: flex;
+    }
+}

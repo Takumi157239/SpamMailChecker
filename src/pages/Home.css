@@ -1,0 +1,44 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.textarea {
+    padding: 10px;
+    font-size: 16px;
+    min-height: 200px;
+}
+
+.submit-button {
+    margin-top: 20px;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* ---------------- */
+/* スマホ対応 */
+/* ---------------- */
+@media (max-width: 768px) {
+    /* 共通ボタン */
+    .fetch-buttons button {
+        padding: 5px;
+    }
+}
+
