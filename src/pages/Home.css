@@ -4,24 +4,29 @@
     padding: 20px;
 }
 
-.form {
+.SpamInputForm {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.input {
+.SpamInputBox {
     padding: 10px;
     font-size: 16px;
 }
 
-.textarea {
+.SpamInputBoxTextarea {
     padding: 10px;
     font-size: 16px;
     min-height: 200px;
 }
 
-.submit-button {
+.LaNote{
+    font-size: 14px;
+    color: red;
+}
+
+.BtDiscrimination {
     margin-top: 20px;
     padding: 12px;
     font-size: 16px;

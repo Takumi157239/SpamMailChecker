@@ -7,6 +7,11 @@ export const useAuth = () => {
     return sessionStorage.getItem("id_token");
   };
 
+  //ユーザー名取得
+  const getUserName = () => {
+    return sessionStorage.getItem("username");
+  }
+
   //ログアウト
   const logout = () => {
     sessionStorage.clear();
@@ -16,5 +21,5 @@ export const useAuth = () => {
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
-  return { getIdToken, logout };
+  return { getIdToken, getUserName, logout };
 };

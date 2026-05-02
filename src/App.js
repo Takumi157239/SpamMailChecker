@@ -20,8 +20,13 @@ function App() {
 
   if (auth.isAuthenticated) {
 
-    //IDトークンを保存
-    sessionStorage.setItem("id_token", auth.user?.id_token);
+    //IDトークンとUserNameを取得
+    const id_token = auth.user?.id_token;                      //IDトークン
+    const payload = JSON.parse(atob(id_token.split(".")[1]));  //UserName
+    
+    //IDトークンUserNameをを保存
+    sessionStorage.setItem("id_token", id_token);                   //IDトークン
+    sessionStorage.setItem("username",payload["cognito:username"]); //UserName
 
     return (
       <BrowserRouter>

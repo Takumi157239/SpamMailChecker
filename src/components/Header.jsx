@@ -20,7 +20,7 @@ export default function Header() {
 
         {/* ナビゲーション */}
         <nav className={`header-right ${menuOpen ? "open" : ""}`}>
-            <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>HOME</Link>
+            <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>SpamChecker</Link>
             <Link to="/spamboard" className="nav-link" onClick={() => setMenuOpen(false)}>迷惑メール相談所</Link>
             <Link to="/account" className="nav-link" onClick={() => setMenuOpen(false)}>アカウント</Link>
         </nav>

@@ -62,7 +62,7 @@
 @media (max-width: 768px) {
 
   .overlay {
-    align-items: flex-end; /* 下に配置 */
+    align-items: flex-end;
   }
 
   .SpamResultModal {
