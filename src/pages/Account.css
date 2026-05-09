@@ -1,29 +1,44 @@
 /* ページ全体 */
 .account-page {
-  background: #f4f6f8;
-  min-height: calc(100vh - 60px); /* ヘッダー分引く */
-  padding: 30px 20px;
+  width: 100%;
+  height: 100vh;
+  background-color: #f3f4f6;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
 }
 
 /* 横幅制御 */
 .account-wrapper {
-  max-width: 600px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 900px;
+  height: 95vh;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* タイトル */
-.page-title {
-  font-size: 24px;
-  margin-bottom: 20px;
+.account-page-title {
+  margin: 0 0 20px 0;
+  font-size: 32px;
+  color: #333;
+  flex-shrink: 0;
 }
 
 /* カード */
 .account-card {
-  background: #fff;
+  background-color: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* 各項目 */
@@ -62,24 +77,4 @@
 
 .logout-btn:hover {
   background: #c0392b;
-}
-
-/* ===== スマホ ===== */
-@media (max-width: 768px) {
-
-  .account-page {
-    padding: 20px 15px;
-  }
-
-  .page-title {
-    font-size: 20px;
-  }
-
-  .account-card {
-    padding: 16px;
-  }
-
-  .account-item-value {
-    font-size: 14px;
-  }
 }

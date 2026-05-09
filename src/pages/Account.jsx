@@ -16,7 +16,7 @@ export default function Account() {
     <div className="account-page">
       <div className="account-wrapper">
 
-        <h1 className="page-title">アカウント</h1>
+        <h1 className="account-page-title">アカウント</h1>
 
         <div className="account-card">
           <div className="account-item">
@@ -26,7 +26,7 @@ export default function Account() {
         </div>
 
         <button className="logout-btn" onClick={() => signOutRedirect()}>ログアウト</button>
-
+        
       </div>
     </div>
   )

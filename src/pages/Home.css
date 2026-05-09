@@ -13,12 +13,14 @@
 .SpamInputBox {
     padding: 10px;
     font-size: 16px;
+    border: 2px solid #0a0;
 }
 
 .SpamInputBoxTextarea {
     padding: 10px;
     font-size: 16px;
     min-height: 200px;
+    border: 2px solid #0a0;
 }
 
 .LaNote{
