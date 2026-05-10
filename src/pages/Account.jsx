@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from "../General/useAuth";
+import PostListForm from '../components/PostListForm'
 import "./Account.css"
 
 export default function Account() {
@@ -25,6 +26,8 @@ export default function Account() {
           </div>
         </div>
 
+        <PostListForm PostListHeight="calc(100vh - 500px)" UserName={getUserName()}/>
+        <br/>
         <button className="logout-btn" onClick={() => signOutRedirect()}>ログアウト</button>
         
       </div>

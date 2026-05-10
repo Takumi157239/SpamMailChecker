@@ -16,18 +16,18 @@
   width: 100%;
   max-width: 900px;
   height: 95vh;
-
   display: flex;
   flex-direction: column;
-
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
   box-sizing: border-box;
 }
 
 /* タイトル */
 .account-page-title {
   margin: 0 0 20px 0;
-  font-size: 32px;
+  font-size: 26px;
   color: #333;
   flex-shrink: 0;
 }

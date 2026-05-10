@@ -1,0 +1,114 @@
+/* 投稿一覧 */
+.post-list {
+  overflow-y: auto;
+  border: 1px solid #d0d7de;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 10px;
+}
+
+/* 投稿カード */
+.post-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.user-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #4f8cff;
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 22px;
+  font-weight: bold;
+
+  margin-right: 15px;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.post-date {
+  font-size: 13px;
+  color: #777;
+  margin-top: 3px;
+}
+
+.post-body {
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+.comment-area {
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.comment-title {
+  font-weight: bold;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+
+/* ボタン中央配置 */
+.btShowMoreArea {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.btShowMore {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 999px;
+  background: #4f8cff;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btShowMore:hover {
+  opacity: 0.85;
+}
+
+.btShowMore:active {
+  transform: scale(0.98);
+}
+
+/* これ以上の投稿はありません */
+.postEndMessage, .postErrorMessage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 20px 0;
+  padding: 16px;
+
+  color: #7d8590;
+  font-size: 14px;
+
+  background: #f6f8fa;
+  border: 1px solid #d8dee4;
+  border-radius: 12px;
+
+  user-select: none;
+}

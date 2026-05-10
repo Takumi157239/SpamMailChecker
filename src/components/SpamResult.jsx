@@ -7,7 +7,6 @@ export default function SpamResult({ isOpen, risk, reason, onClose }) {
 
     if (!isOpen) return null;
 
-
     const getLevelInfo = () => {
         switch (risk) {
             case "high":

@@ -1,0 +1,9 @@
+.main-layout-container {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-container {
+    height: calc(100vh - 30px);
+    overflow: hidden;
+}

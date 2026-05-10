@@ -1,18 +1,79 @@
-import React, { useState } from 'react'
+import React, { useState, useRef , useEffect} from 'react'
 import { useAuth } from "../General/useAuth";
 import { AWSApiGatewayInfo } from "../General/Const"
 import "./AnswerForm.css"
 
 
-export default function AnswerForm({ isOpen, onClose, answers, postKey, post }) {
+//回答表示コンポーネント
+export default function AnswerForm({ isOpen, onClose, postKey, post }) {
 
-    //回答内容を保存する
+    //DynamoDBから取得した回答を保存する
+    const [answers, setAnswers] = useState([]);
+
+    //ユーザーが入力した回答内容を保存する
     const [answer, setAnswer] = useState("");
 
     //ユーザー情報・IDトークン取得
     const { getUserName, getIdToken } = useAuth();
 
-    if (!isOpen) return null;
+    //回答データが最後か判別する
+    const [LastAnswer, setLastAnswer] = useState(false);
+
+    //回答データの続きデータを保持する
+    const [answersLastKey, setAnswersLastKey] = useState(null);
+
+    //アクセス過多エラーメッセージ
+    const [serverErrorMessage, setServerErrorMessage] = useState(false);
+
+    //スクロール監視用
+    const answerBoxRef = useRef(null);
+    const [answerShowMore, setAnswerShowMore] = useState(false);
+
+    //回答を取得
+    const GetSpamBordAnswerData = async (pk, lastKey = null) => {
+
+        if (pk === "") return;
+
+        const token = getIdToken();
+        const res = await fetch(AWSApiGatewayInfo.RequestURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                type: "getdata_ans",
+                PostKey: pk,
+                LastKey: lastKey
+            }),
+        });
+
+        //レスポンスデータ取得
+        const respons_data = await res.json();
+
+        if (respons_data.items !== undefined) {
+
+            //回答データを格納
+            setAnswers(prev => [...prev, ...respons_data.items]);
+
+            //続きからのデータを格納
+            setAnswersLastKey(respons_data.lastKey);
+
+            //lastKeyがnullになったら、これ以上の回答はありませんと表示させる
+            if (respons_data.lastKey === null){
+                setLastAnswer(true);
+            }
+        }
+        else{
+            setServerErrorMessage(true);
+        }
+    }
+
+    //コンポーネント表示時に実行
+    useEffect(() => {
+        GetSpamBordAnswerData(postKey);
+    }, []);
+
 
     //回答を投稿する
     const AnswerPostRun = async () => {
@@ -61,6 +122,21 @@ export default function AnswerForm({ isOpen, onClose, answers, postKey, post }) 
         onClose()
     };
 
+
+    if (!isOpen) return null;
+
+
+    const answerHandleScroll = () => {
+        const el = answerBoxRef.current;
+        if (!el) return;
+
+        // スクロールが最下部に近いか判定
+        const isBottom =
+            el.scrollTop + el.clientHeight >= el.scrollHeight;
+
+        setAnswerShowMore(isBottom);
+    };
+
     return (
         <div className="modal-overlay">
 
@@ -71,7 +147,7 @@ export default function AnswerForm({ isOpen, onClose, answers, postKey, post }) 
                     <button className="close-button" onClick={onClose}>×</button>
                 </div>
 
-                <div className="answer-list">
+                <div className="answer-list" ref={answerBoxRef} onScroll={answerHandleScroll}>
 
                     {answers?.map((answer) => (
                         <div className="answer-item" key={answer.CreatedAt}>
@@ -86,6 +162,28 @@ export default function AnswerForm({ isOpen, onClose, answers, postKey, post }) 
                     ))}
 
                 </div>
+
+                {LastAnswer && (
+                    <div className="postEndMessage">これ以上の回答はありません</div>
+                )}
+
+                {serverErrorMessage && (
+                    <div className="postErrorMessage">アクセスが混雑しています<br/>閉じたあとに時間をおいてもう一度開きなおしてください</div>
+                )}
+
+                {answerShowMore && !LastAnswer && (
+                    <div className="btShowMoreArea">
+                        <button className="btShowMore" onClick={() => {
+                            if (answersLastKey !== null){
+                                GetSpamBordAnswerData(postKey, answersLastKey);
+                            }
+                        }}>
+                            さらに10件表示
+                        </button>
+                    </div>
+                )}
+
+                <br/>
 
                 <div className="answer-input-area">
 

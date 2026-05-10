@@ -4,6 +4,7 @@ import { AWSApiGatewayInfo } from "../General/Const"
 import "./PostForm.css"
 
 
+//投稿処理を行うコンポーネント
 export default function PostForm({ isOpen, onClose }) {
 
     //ユーザー情報・IDトークン取得

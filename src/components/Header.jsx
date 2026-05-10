@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from "react-router-dom";
 import "./Header.css";
 
+//ヘッダーコンポーネント
 export default function Header() {
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ export default function Header() {
     <header className="header">
         {/* 左側：ロゴ or タイトル */}
         <div className="header-left">
-            <h1 className="logo">Spam Checker</h1>
+            <h1 className="logo">SpamMailChecker</h1>
         </div>
 
         {/* ハンバーガーボタン */}
@@ -20,7 +21,7 @@ export default function Header() {
 
         {/* ナビゲーション */}
         <nav className={`header-right ${menuOpen ? "open" : ""}`}>
-            <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>SpamChecker</Link>
+            <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>SpamMailChecker</Link>
             <Link to="/spamboard" className="nav-link" onClick={() => setMenuOpen(false)}>迷惑メール相談所</Link>
             <Link to="/account" className="nav-link" onClick={() => setMenuOpen(false)}>アカウント</Link>
         </nav>
