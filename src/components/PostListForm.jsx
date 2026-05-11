@@ -60,6 +60,7 @@ export default function PostListForm({PostListHeight, UserName = null }) {
 
         //レスポンスデータを格納
         setPosts(prev => [...prev, ...respons_data.items]);
+        
 
         //続きからのデータを格納
         setPostsLastKey(respons_data.lastKey);
@@ -71,6 +72,7 @@ export default function PostListForm({PostListHeight, UserName = null }) {
 
     //スクロール監視処理
     const postHandleScroll = () => {
+
         const el = boxRef.current;
         if (!el) return;
 
@@ -78,7 +80,9 @@ export default function PostListForm({PostListHeight, UserName = null }) {
         const isBottom =
             el.scrollTop + el.clientHeight >= el.scrollHeight;
 
-        setPostShowMore(isBottom);
+        if (postShowMore !== isBottom){
+            setPostShowMore(isBottom);
+        }
     };
 
 
@@ -86,7 +90,7 @@ export default function PostListForm({PostListHeight, UserName = null }) {
         <div>
             <div className="post-list" style={{height: PostListHeight}} ref={boxRef} onScroll={postHandleScroll}>
                 {posts?.map((post) => (
-                    <div className="post-card" key={post.CreatedAt}>
+                    <div className="post-card" key={post.PK}>
 
                         {/* 投稿ヘッダー */}
                         <div className="post-header">
@@ -112,19 +116,16 @@ export default function PostListForm({PostListHeight, UserName = null }) {
                                 回答 {post.CommentCount}件
                             </div>
                         </div>
-
-                        {/* 回答フォーム呼び出し */}
-                        {isAnswerFormOpen && (
-                            <AnswerForm
-                                isOpen={isAnswerFormOpen}
-                                onClose={() => setIsAnswerFormOpen(false)}
-                                postKey={postKey}
-                                post={selectedPost}
-                            />
-                        )}
-
                     </div>
                 ))}
+
+                {/* 回答フォーム呼び出し */}
+                <AnswerForm
+                    isOpen={isAnswerFormOpen}
+                    onClose={() => setIsAnswerFormOpen(false)}
+                    postKey={postKey}
+                    post={selectedPost}
+                />
 
             </div>
 
@@ -136,7 +137,7 @@ export default function PostListForm({PostListHeight, UserName = null }) {
                 <div className="btShowMoreArea">
                     <button className="btShowMore" onClick={() => {
                         if (postsLastKey !== null) {
-                            GetSpamBordData(postsLastKey)
+                            GetSpamBordData(postsLastKey);
                         }
                     }}>
                         さらに10件表示

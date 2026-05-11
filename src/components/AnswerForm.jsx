@@ -7,6 +7,12 @@ import "./AnswerForm.css"
 //回答表示コンポーネント
 export default function AnswerForm({ isOpen, onClose, postKey, post }) {
 
+    //コンポーネント表示時に実行
+    useEffect(() => {
+        if (!isOpen) return 
+        GetSpamBordAnswerData(postKey);
+    }, [isOpen]);
+
     //DynamoDBから取得した回答を保存する
     const [answers, setAnswers] = useState([]);
 
@@ -30,7 +36,7 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
     const [answerShowMore, setAnswerShowMore] = useState(false);
 
     //回答を取得
-    const GetSpamBordAnswerData = async (pk, lastKey = null) => {
+    const GetSpamBordAnswerData = async (pk, lastKey = null, showMore = false) => {
 
         if (pk === "") return;
 
@@ -54,7 +60,12 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
         if (respons_data.items !== undefined) {
 
             //回答データを格納
-            setAnswers(prev => [...prev, ...respons_data.items]);
+            if (showMore){
+                setAnswers(prev => [...prev, ...respons_data.items]);
+            }
+            else{
+                setAnswers(respons_data.items);
+            }
 
             //続きからのデータを格納
             setAnswersLastKey(respons_data.lastKey);
@@ -68,12 +79,6 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
             setServerErrorMessage(true);
         }
     }
-
-    //コンポーネント表示時に実行
-    useEffect(() => {
-        GetSpamBordAnswerData(postKey);
-    }, []);
-
 
     //回答を投稿する
     const AnswerPostRun = async () => {
@@ -112,10 +117,10 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
 
         //正常に投稿されたか判定
         if (respons_data.statusCode === 200){
-            alert("投稿完了!");
+            alert("回答完了!");
         }
         else{
-            alert("投稿時にエラーが発生しました");
+            alert("回答時にエラーが発生しました");
         }
 
         //投稿画面を閉じる
@@ -127,6 +132,7 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
 
 
     const answerHandleScroll = () => {
+
         const el = answerBoxRef.current;
         if (!el) return;
 
@@ -144,13 +150,13 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
 
                 <div className="modal-header">
                     <h2>回答</h2>
-                    <button className="close-button" onClick={onClose}>×</button>
+                    <button className="close-button" style={{display: isOpen ? "flex" : "none"}} onClick={onClose}>×</button>
                 </div>
 
                 <div className="answer-list" ref={answerBoxRef} onScroll={answerHandleScroll}>
 
                     {answers?.map((answer) => (
-                        <div className="answer-item" key={answer.CreatedAt}>
+                        <div className="answer-item" key={answer.CommentId}>
                             <div className="answer-user">
                                 {answer.UserName}
                             </div>
@@ -175,7 +181,7 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
                     <div className="btShowMoreArea">
                         <button className="btShowMore" onClick={() => {
                             if (answersLastKey !== null){
-                                GetSpamBordAnswerData(postKey, answersLastKey);
+                                GetSpamBordAnswerData(postKey, answersLastKey, true);
                             }
                         }}>
                             さらに10件表示
