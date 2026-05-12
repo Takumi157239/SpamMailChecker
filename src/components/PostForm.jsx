@@ -5,7 +5,7 @@ import "./PostForm.css"
 
 
 //投稿処理を行うコンポーネント
-export default function PostForm({ isOpen, onClose }) {
+export default function PostForm({ isOpen, onClose, onPostSuccess }) {
 
     //ユーザー情報・IDトークン取得
     const { getUserName, getIdToken } = useAuth();
@@ -54,6 +54,9 @@ export default function PostForm({ isOpen, onClose }) {
         else{
             alert("投稿時にエラーが発生しました");
         }
+
+        //リロードさせる
+        onPostSuccess();
 
         //投稿画面を閉じる
         onClose()

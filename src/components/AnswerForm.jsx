@@ -5,7 +5,7 @@ import "./AnswerForm.css"
 
 
 //回答表示コンポーネント
-export default function AnswerForm({ isOpen, onClose, postKey, post }) {
+export default function AnswerForm({ isOpen, onClose, postKey, post, onAnswerAdded }) {
 
     //コンポーネント表示時に実行
     useEffect(() => {
@@ -123,6 +123,10 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
             alert("回答時にエラーが発生しました");
         }
 
+        setLastAnswer(false);
+        
+        onAnswerAdded(postKey);
+
         //投稿画面を閉じる
         onClose()
     };
@@ -131,6 +135,7 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
     if (!isOpen) return null;
 
 
+    //スクロール判定
     const answerHandleScroll = () => {
 
         const el = answerBoxRef.current;
@@ -140,7 +145,9 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
         const isBottom =
             el.scrollTop + el.clientHeight >= el.scrollHeight;
 
-        setAnswerShowMore(isBottom);
+        if (answerShowMore !== isBottom){
+            setAnswerShowMore(isBottom);
+        }
     };
 
     return (
@@ -150,7 +157,15 @@ export default function AnswerForm({ isOpen, onClose, postKey, post }) {
 
                 <div className="modal-header">
                     <h2>回答</h2>
-                    <button className="close-button" style={{display: isOpen ? "flex" : "none"}} onClick={onClose}>×</button>
+                    <button className="close-button" 
+                            style={{display: isOpen ? "flex" : "none"}} 
+                            onClick={() => {
+                                onClose();
+                                setLastAnswer(false);
+                                setAnswerShowMore(false);
+                            }}>
+                        ×
+                    </button>
                 </div>
 
                 <div className="answer-list" ref={answerBoxRef} onScroll={answerHandleScroll}>

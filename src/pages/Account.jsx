@@ -21,12 +21,13 @@ export default function Account() {
 
         <div className="account-card">
           <div className="account-item">
-            <span className="account-item-label">ユーザー名</span>
+            <span className="account-item-label">ユーザー名：</span>
             <span className="account-item-value">{getUserName()}</span>
           </div>
         </div>
 
-        <PostListForm PostListHeight="calc(100vh - 500px)" UserName={getUserName()}/>
+        <h1 className="account-page-title">投稿履歴</h1>
+        <PostListForm PostListHeight="calc(100vh - 450px)" UserName={getUserName()} isDelete={true}/>
         <br/>
         <button className="logout-btn" onClick={() => signOutRedirect()}>ログアウト</button>
         

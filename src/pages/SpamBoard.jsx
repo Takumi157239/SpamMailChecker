@@ -8,13 +8,21 @@ export default function SpamBoard() {
     //投稿フォーム起動
     const [isPostFormOpen, setIsPostFormOpen] = useState(false);
 
+    //投稿フォームをリロードするときのトリガー
+    const [reloadTrigger, setReloadTrigger] = useState(0);
+
     return (
         <div className="board-wrapper">
             <div className="board-container">
                 <h1 className="board-title">迷惑メール相談所</h1>
                 <button className="floating-post-button" onClick={() => setIsPostFormOpen(true)}>投稿</button>
-                <PostForm isOpen={isPostFormOpen} onClose={() => setIsPostFormOpen(false)} />
-                <PostListForm PostListHeight="calc(100vh - 250px)"/>
+                <PostForm isOpen={isPostFormOpen}
+                    onClose={() => setIsPostFormOpen(false)}
+                    onPostSuccess={() => {
+                        setReloadTrigger(prev => prev + 1);
+                    }}
+                />
+                <PostListForm PostListHeight="calc(100vh - 250px)" reloadTrigger={reloadTrigger} />
             </div>
         </div>
     )

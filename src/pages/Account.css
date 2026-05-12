@@ -26,7 +26,7 @@
 
 /* タイトル */
 .account-page-title {
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
   font-size: 26px;
   color: #333;
   flex-shrink: 0;
@@ -36,8 +36,10 @@
 .account-card {
   background-color: white;
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 25px;
+  padding-left: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -45,6 +47,7 @@
 .account-item {
   padding: 12px 0;
   border-bottom: 1px solid #eee;
+  display: flex;
 }
 
 .account-item:last-child {
@@ -53,9 +56,10 @@
 
 .account-item-label {
   display: block;
-  font-size: 12px;
+  font-size: 16px;
   color: #888;
   margin-bottom: 4px;
+  padding-right: 10px;
 }
 
 .account-item-value {

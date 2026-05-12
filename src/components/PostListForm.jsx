@@ -6,12 +6,15 @@ import "./PostListForm.css"
 
 
 //投稿データ一覧を表示するコンポーネント
-export default function PostListForm({PostListHeight, UserName = null }) {
+export default function PostListForm({ PostListHeight, reloadTrigger = null, UserName = null, isDelete = false }) {
+
+    //削除後のリロード用
+    const [deleteReloadTrigger, setDeleteReloadTrigger] = useState(0);
 
     //コンポーネント表示時に実行
     useEffect(() => {
         GetSpamBordData();
-    }, []);
+    }, [reloadTrigger, deleteReloadTrigger]);
 
     //投稿データを格納する
     const [posts, setPosts] = useState([]);
@@ -32,15 +35,15 @@ export default function PostListForm({PostListHeight, UserName = null }) {
     const [selectedPost, setSelectedPost] = useState(null);
 
     //IDトークン取得
-    const { getIdToken, getUserName } = useAuth();
+    const { getIdToken } = useAuth();
 
     //スクロール監視用
     const boxRef = useRef(null);
     const [postShowMore, setPostShowMore] = useState(false);
 
     //投稿内容を取得
-    const GetSpamBordData = async (lastKey = null) => {
-        
+    const GetSpamBordData = async (lastKey = null, showMore = false) => {
+
         const token = getIdToken();
         const res = await fetch(AWSApiGatewayInfo.RequestURL, {
             method: "POST",
@@ -59,15 +62,55 @@ export default function PostListForm({PostListHeight, UserName = null }) {
         const respons_data = await res.json();
 
         //レスポンスデータを格納
-        setPosts(prev => [...prev, ...respons_data.items]);
-        
+        if (showMore) {
+            setPosts(prev => [...prev, ...respons_data.items]);
+        }
+        else{
+            setPosts(respons_data.items);
+        }
 
         //続きからのデータを格納
         setPostsLastKey(respons_data.lastKey);
 
-        if (respons_data.lastKey === null){
+        if (respons_data.lastKey === null) {
             setLastPost(true);
         }
+    }
+
+
+    //投稿データを削除
+    const deletePostData = async (PK) => {
+
+        if(!window.confirm('投稿データを削除します\nよろしいですか？\n※コメントもすべて削除されます')){
+            return;
+        }
+
+        const token = getIdToken();
+        const res = await fetch(AWSApiGatewayInfo.RequestURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                type: "deletedata_toukou",
+                PostKey: PK
+            }),
+        });
+
+        //レスポンスデータ取得
+        const respons_data = await res.json();
+
+        //正常に投稿されたか判定
+        if (respons_data.statusCode === 200){
+            alert("削除完了!");
+        }
+        else{
+            alert("削除時にエラーが発生しました");
+        }
+
+        //リロード用
+        setDeleteReloadTrigger(prev => prev + 1);
     }
 
     //スクロール監視処理
@@ -80,7 +123,7 @@ export default function PostListForm({PostListHeight, UserName = null }) {
         const isBottom =
             el.scrollTop + el.clientHeight >= el.scrollHeight;
 
-        if (postShowMore !== isBottom){
+        if (postShowMore !== isBottom) {
             setPostShowMore(isBottom);
         }
     };
@@ -88,9 +131,13 @@ export default function PostListForm({PostListHeight, UserName = null }) {
 
     return (
         <div>
-            <div className="post-list" style={{height: PostListHeight}} ref={boxRef} onScroll={postHandleScroll}>
+            <div className="post-list" style={{ height: PostListHeight }} ref={boxRef} onScroll={postHandleScroll}>
                 {posts?.map((post) => (
                     <div className="post-card" key={post.PK}>
+
+                        {isDelete && (
+                            <div className='bt-post-delete-container'><button className='bt-post-delete' onClick={() => deletePostData(post.PK)}>削除</button></div>
+                        )}
 
                         {/* 投稿ヘッダー */}
                         <div className="post-header">
@@ -122,9 +169,19 @@ export default function PostListForm({PostListHeight, UserName = null }) {
                 {/* 回答フォーム呼び出し */}
                 <AnswerForm
                     isOpen={isAnswerFormOpen}
-                    onClose={() => setIsAnswerFormOpen(false)}
+                    onClose={() => {
+                        setIsAnswerFormOpen(false);
+                    }}
                     postKey={postKey}
                     post={selectedPost}
+                    onAnswerAdded={(postKey) => {
+                        setPosts(prev =>
+                            prev.map(p =>
+                                p.PK === postKey
+                                    ? {...p, CommentCount: (p.CommentCount || 0) + 1} : p
+                            )
+                        );
+                    }}
                 />
 
             </div>
@@ -137,7 +194,7 @@ export default function PostListForm({PostListHeight, UserName = null }) {
                 <div className="btShowMoreArea">
                     <button className="btShowMore" onClick={() => {
                         if (postsLastKey !== null) {
-                            GetSpamBordData(postsLastKey);
+                            GetSpamBordData(postsLastKey, true);
                         }
                     }}>
                         さらに10件表示
