@@ -177,7 +177,7 @@ export default function AnswerForm({ isOpen, onClose, postKey, post, onAnswerAdd
                             </div>
 
                             <div className="answer-body">
-                                {answer.Body}
+                                <pre>{answer.Body}</pre>
                             </div>
                         </div>
                     ))}
