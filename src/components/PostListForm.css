@@ -53,6 +53,13 @@
 .post-body {
   margin-bottom: 20px;
   line-height: 1.7;
+  
+}
+
+.post-body-pre{
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .comment-area {

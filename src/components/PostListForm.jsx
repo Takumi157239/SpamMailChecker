@@ -150,8 +150,7 @@ export default function PostListForm({ PostListHeight, reloadTrigger = null, Use
 
                         {/* 本文 */}
                         <div className="post-body">
-                        <pre>{post.Body}</pre>
-                            
+                            <pre className='post-body-pre'>{post.Body}</pre>
                         </div>
 
                         {/* 回答 */}
