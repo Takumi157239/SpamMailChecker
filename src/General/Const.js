@@ -1,6 +1,6 @@
 //ドメイン情報
-export const AccessURL = "https://d7i1j3duww8u1.cloudfront.net/";
-// export const AccessURL = "http://localhost:3000/"
+// export const AccessURL = "https://d7i1j3duww8u1.cloudfront.net/";
+export const AccessURL = "http://localhost:3000/"
 
 
 //AWS(Cognito)情報
